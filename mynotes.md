@@ -466,3 +466,496 @@ response = model.invoke(messages)
 > "Message prompts provide structured conversational context using role-based messages."
 
 ---
+
+# Structured Output & Middleware — Most Important Interview Questions and Notes
+
+# Structured Output — `with_structured_output()`
+
+## What is structured output?
+
+### Answer
+
+Structured output forces the LLM to return responses in a predefined schema format instead of plain text.
+
+Used for:
+
+* APIs
+* JSON responses
+* Data extraction
+* Reliable parsing
+
+---
+
+## Why use `with_structured_output()`?
+
+### Answer
+
+It ensures:
+
+* Consistent responses
+* Easy parsing
+* Validation
+* Better downstream automation
+
+---
+
+## Updated Syntax
+
+```python
+from pydantic import BaseModel, Field
+from langchain_openai import ChatOpenAI
+
+class User(BaseModel):
+    name: str = Field(description="Name of the user")
+    age: int = Field(description="Age of the user")
+
+model = ChatOpenAI(model="gpt-4o-mini")
+
+structured_model = model.with_structured_output(User)
+
+response = structured_model.invoke(
+    "Rohan is 21 years old"
+)
+
+print(response)
+```
+
+---
+
+# Pydantic
+
+## What is Pydantic?
+
+### Answer
+
+Pydantic is a Python data validation library used for defining structured schemas with type validation.
+
+---
+
+## Why is Pydantic preferred?
+
+### Answer
+
+Because it provides:
+
+* Runtime validation
+* Field descriptions
+* Nested schemas
+* Type safety
+
+---
+
+## Syntax for `Field`
+
+```python
+from pydantic import BaseModel, Field
+
+class Product(BaseModel):
+    name: str = Field(
+        description="Product name",
+        min_length=2
+    )
+
+    price: float = Field(
+        gt=0,
+        description="Product price"
+    )
+```
+
+---
+
+# `include_raw=True`
+
+## What is `include_raw=True`?
+
+### Answer
+
+It returns:
+
+1. Parsed structured output
+2. Original raw LLM response
+
+Useful for:
+
+* Debugging
+* Validation
+* Inspecting parsing failures
+
+---
+
+## Syntax
+
+```python
+structured_model = model.with_structured_output(
+    User,
+    include_raw=True
+)
+```
+
+---
+
+# TypedDict
+
+## What is TypedDict?
+
+### Answer
+
+TypedDict is a lightweight typing structure for defining dictionary schemas without runtime validation.
+
+---
+
+## When to use TypedDict?
+
+### Answer
+
+Use when:
+
+* Validation is not required
+* Performance matters
+* Simpler schemas are enough
+
+---
+
+## Syntax for `Annotated`
+
+```python
+from typing_extensions import TypedDict, Annotated
+
+class User(TypedDict):
+    name: Annotated[
+        str,
+        "User name"
+    ]
+
+    age: Annotated[
+        int,
+        "User age"
+    ]
+```
+
+---
+
+# DataClasses
+
+## What are DataClasses?
+
+### Answer
+
+DataClasses are Python classes mainly used for storing structured data using the `@dataclass` decorator.
+
+---
+
+## Syntax
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class User:
+    name: str
+    age: int
+```
+
+---
+
+# Pydantic vs TypedDict vs DataClasses
+
+## Most Important Interview Difference
+
+| Feature            | Pydantic  | TypedDict          | DataClass       |
+| ------------------ | --------- | ------------------ | --------------- |
+| Validation         | Yes       | No                 | No              |
+| Runtime Checking   | Yes       | No                 | Limited         |
+| Performance        | Moderate  | Fast               | Fast            |
+| Best Use           | APIs/LLMs | Lightweight typing | Data containers |
+| Field Descriptions | Yes       | Limited            | No              |
+
+---
+
+## Best Interview Answer
+
+### When to use Pydantic?
+
+Use Pydantic when validation, schema enforcement, and structured AI outputs are important.
+
+### When to use TypedDict?
+
+Use TypedDict for lightweight schema typing without validation overhead.
+
+### When to use DataClasses?
+
+Use DataClasses for simple structured data storage.
+
+---
+
+# Middleware
+
+## What is Middleware?
+
+### Answer
+
+Middleware intercepts and controls agent execution flow before or after model/tool calls.
+
+---
+
+## Why is Middleware important?
+
+### Answer
+
+Middleware helps with:
+
+* Logging
+* Guardrails
+* Retries
+* Rate limiting
+* Human approval
+* Analytics
+
+---
+
+# Summarization Middleware
+
+## What is Summarization Middleware?
+
+### Answer
+
+It automatically compresses old conversation history when token limits are reached.
+
+---
+
+## Why use it?
+
+### Answer
+
+Used for:
+
+* Long conversations
+* Memory optimization
+* Preserving context efficiently
+
+---
+
+# Trigger
+
+## What is Trigger?
+
+### Answer
+
+Trigger defines when middleware actions should activate.
+
+Example:
+
+* Token limit exceeded
+* Specific tool called
+
+---
+
+# Keep
+
+## What is Keep?
+
+### Answer
+
+Keep defines how many recent messages remain unchanged during summarization.
+
+---
+
+# Hooks
+
+## What are Hooks?
+
+### Answer
+
+Hooks are custom functions executed at specific stages of agent execution.
+
+---
+
+## Common Hook Types
+
+* Before model call
+* After model call
+* Before tool execution
+* After tool execution
+
+---
+
+# Checkpoints
+
+## What are Checkpoints?
+
+### Answer
+
+Checkpoints store intermediate agent states for recovery, debugging, or continuation.
+
+---
+
+# Token Size
+
+## What is Token Size?
+
+### Answer
+
+Token size refers to the number of tokens processed by the model.
+
+Includes:
+
+* Input tokens
+* Output tokens
+
+---
+
+# Fraction
+
+## What is Fraction in Middleware?
+
+### Answer
+
+Fraction defines the percentage of context window usage before summarization triggers.
+
+Example:
+
+```python
+fraction = 0.8
+```
+
+Meaning:
+
+* Summarize when 80% of context window is reached.
+
+---
+
+# Conversion of Token Size to Fraction
+
+## Formula
+
+```python
+fraction = current_tokens / max_context_tokens
+```
+
+### Example
+
+```python
+8000 / 10000 = 0.8
+```
+
+---
+
+# Human-in-the-Loop Middleware
+
+## What is Human-in-the-Loop Middleware?
+
+### Answer
+
+It pauses agent execution for human approval before executing critical actions.
+
+---
+
+## Why is it important?
+
+### Answer
+
+Used for:
+
+* Financial operations
+* Database writes
+* Compliance workflows
+* Sensitive actions
+
+---
+
+# Model Call Limit
+
+## What is Model Call Limit?
+
+### Answer
+
+It restricts the maximum number of LLM calls allowed during agent execution.
+
+---
+
+## Why needed?
+
+### Answer
+
+Prevents:
+
+* Infinite loops
+* Excessive API costs
+* Recursive failures
+
+---
+
+# Important Built-in Middlewares
+
+## Common Middleware Types
+
+### 1. Retry Middleware
+
+Retries failed requests automatically.
+
+### 2. Fallback Middleware
+
+Switches to backup models/tools if primary fails.
+
+### 3. Summarization Middleware
+
+Compresses conversation history.
+
+### 4. Human-in-the-Loop Middleware
+
+Requires manual approval.
+
+### 5. PII Middleware
+
+Detects sensitive data.
+
+### 6. Rate Limit Middleware
+
+Controls request frequency.
+
+---
+
+# Command
+
+## What is Command?
+
+### Answer
+
+A command controls agent execution flow such as:
+
+* Continue
+* Pause
+* Stop
+* Redirect
+
+---
+
+# Reject
+
+## What is Reject?
+
+### Answer
+
+Reject blocks unsafe or invalid tool calls/actions.
+
+Example:
+
+* Dangerous SQL execution
+* Unauthorized API calls
+
+---
+
+# Editing
+
+## What is Editing in HITL?
+
+### Answer
+
+Humans can modify tool inputs or outputs before execution.
+
+Example:
+
+* Editing SQL queries
+* Modifying emails before sending
+
+---

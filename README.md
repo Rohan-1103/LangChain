@@ -67,3 +67,68 @@ An AIMessage represents the output of a model invocation. They can include multi
 
 ## Tool Message
 For models that support tool calling, AI messages can contain tool calls. Tool messages are used to pass the results of a single tool execution back to the model.
+
+## Structured Output need - `with_structured_output()`
+Models can be requested to provide their response in a format matching a given schema. This is useful for ensuring the output can be easily parsed and used in subsequent processing. LangChain supports multiple schema types and methods for enforcing structured output.
+
+## Pydantic
+Pydantic models provide the richest feature set with field validation, descriptions, and nested structures.
+-> Give syntax for Field
+
+## Message output alongside parsed structure using (`include_raw = True`)
+
+## TypedDict
+TypedDict provides a simpler alternative using Python’s built-in typing, ideal when you don’t need runtime validation.
+-> Give syntax for Annotated
+
+## DataClasses
+A data class is a class typically containing mainly data, although there aren’t really any restrictions. You create it using the @dataclass decorator
+
+## When and why to use Pydantic vs TypedDict vs DataClasses?
+
+## Middleware
+Middleware provides a way to more tightly control what happens inside the agent. Middleware is useful for the following:
+- Tracking agent behavior with logging, analytics, and debugging.
+- Transforming prompts, tool selection, and output formatting.
+- Adding retries, fallbacks, and early termination logic.
+- Applying rate limits, guardrails, and PII detection.
+
+## Summarization MiddleWare
+Automatically summarize conversation history when approaching token limits, preserving recent messages while compressing older context. Summarization is useful for the following:
+- Long-running conversations that exceed context windows.
+- Multi-turn dialogues with extensive history.
+- Applications where preserving full conversation context matters.
+
+## Trigger
+
+## Keep
+
+## Hooks
+
+## Check points
+
+## Token Size
+
+
+## Fraction
+
+
+## Conversion of Token size to Fraction
+
+## Human In the Loop Middleware
+Pause agent execution for human approval, editing, or rejection of tool calls before they execute. Human-in-the-loop is useful for the following:
+- High-stakes operations requiring human approval (e.g. database writes, financial transactions).
+- Compliance workflows where human oversight is mandatory.
+- Long-running conversations where human feedback guides the agent.
+
+## Model Call limit
+
+## Other IMP. Built in Middlewares
+
+## Command
+
+
+## Reject
+
+
+## Editing
