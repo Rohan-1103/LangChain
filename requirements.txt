@@ -5,3 +5,6 @@ langchain-groq
 python-dotenv
 langchain-google-genai
 langchain-google-vertexai
+langchain-mcp-adapters
+mcp
+langgraph

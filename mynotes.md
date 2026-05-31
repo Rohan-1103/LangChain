@@ -959,3 +959,14 @@ Example:
 * Modifying emails before sending
 
 ---
+
+## MCP
+    - 1. MCP Server
+    - 2. MCP Client
+    - 3. App
+
+## MCP Transport modes:
+    - 1. stdio
+    - 2. http
+
+## Compare stdio vs http:
