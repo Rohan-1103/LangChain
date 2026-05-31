@@ -435,3 +435,65 @@ Maximum number of tokens an LLM can process in one request.
 # Best Interview One-Liner
 
 > "LangChain is an orchestration framework that simplifies building production-grade LLM applications using prompts, memory, retrieval, tools, and agents."
+
+# Most Important Interview Questions
+
+## 1. What is MCP?
+
+### Answer
+
+MCP (Model Context Protocol) is a standardized protocol enabling AI systems to communicate with external tools and resources.
+
+---
+
+## 2. What is the role of an MCP Server?
+
+### Answer
+
+The MCP Server exposes tools, APIs, and resources to AI systems.
+
+---
+
+## 3. What is an MCP Client?
+
+### Answer
+
+The MCP Client communicates with MCP servers and consumes available tools/resources.
+
+---
+
+## 4. Difference between stdio and HTTP transport?
+
+### Answer
+
+stdio uses local process communication, while HTTP uses network-based communication for remote and scalable systems.
+
+---
+
+## 5. When should stdio transport be used?
+
+### Answer
+
+For local, lightweight, and fast tool integrations.
+
+---
+
+## 6. When should HTTP transport be used?
+
+### Answer
+
+For cloud-hosted, distributed, and enterprise-scale AI systems.
+
+---
+
+## 7. Why is MCP important for AI agents?
+
+### Answer
+
+MCP standardizes tool communication and improves interoperability between AI systems and external resources.
+
+---
+
+# Best Interview One-Liner
+
+> "MCP standardizes how AI agents communicate with external tools and systems, enabling scalable and interoperable agent architectures."

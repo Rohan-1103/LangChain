@@ -959,14 +959,281 @@ Example:
 * Modifying emails before sending
 
 ---
+# MCP (Model Context Protocol) — Interview Notes + Important Questions
 
-## MCP
-    - 1. MCP Server
-    - 2. MCP Client
-    - 3. App
+# What is MCP?
 
-## MCP Transport modes:
-    - 1. stdio
-    - 2. http
+## Definition
 
-## Compare stdio vs http:
+MCP (Model Context Protocol) is an open protocol that standardizes communication between:
+
+* LLM applications
+* Tools
+* External systems
+* AI agents
+
+It enables models to securely interact with external resources in a consistent way.
+
+---
+
+# Why is MCP Important?
+
+### Answer
+
+MCP solves:
+
+* Tool integration standardization
+* Context sharing
+* Multi-tool interoperability
+* External system communication
+
+---
+
+# MCP Architecture
+
+# 1. MCP Server
+
+## Definition
+
+The MCP Server exposes:
+
+* Tools
+* APIs
+* Resources
+* Functions
+
+to AI applications.
+
+---
+
+## Responsibilities
+
+* Tool execution
+* Resource exposure
+* Context management
+* Request handling
+
+---
+
+## Example
+
+An MCP server may expose:
+
+* Weather API
+* Database access
+* File system tools
+* Search tools
+
+---
+
+## Interview One-Liner
+
+> "The MCP Server provides tools and resources to AI systems through the MCP protocol."
+
+---
+
+# 2. MCP Client
+
+## Definition
+
+The MCP Client connects to MCP servers and allows AI models/agents to use available tools.
+
+---
+
+## Responsibilities
+
+* Sending requests
+* Receiving responses
+* Managing tool communication
+
+---
+
+## Example
+
+A LangGraph agent using MCP tools acts as an MCP client.
+
+---
+
+## Interview One-Liner
+
+> "The MCP Client consumes tools and resources exposed by MCP servers."
+
+---
+
+# 3. App
+
+## Definition
+
+The App is the user-facing application interacting with the AI system.
+
+---
+
+## Examples
+
+* Chatbot
+* IDE assistant
+* AI agent dashboard
+* Coding assistant
+
+---
+
+# MCP Workflow
+
+```text id="mhh1u5"
+User App -> MCP Client -> MCP Server -> Tool/API
+```
+
+---
+
+# MCP Transport Modes
+
+# 1. stdio
+
+## Definition
+
+`stdio` uses standard input/output streams for communication between client and server.
+
+---
+
+## How It Works
+
+```text id="h2a2rr"
+Client stdin/stdout <-> MCP Server
+```
+
+---
+
+## Best Use Cases
+
+* Local tools
+* CLI applications
+* Desktop integrations
+* Lightweight communication
+
+---
+
+## Advantages
+
+* Fast
+* Simple
+* Lightweight
+* No network overhead
+
+---
+
+## Disadvantages
+
+* Local machine only
+* Not scalable for distributed systems
+
+---
+
+# 2. HTTP
+
+## Definition
+
+HTTP transport uses web-based API communication between MCP client and server.
+
+---
+
+## How It Works
+
+```text id="rb8ggx"
+Client <-> HTTP Request <-> MCP Server
+```
+
+---
+
+## Best Use Cases
+
+* Cloud applications
+* Distributed systems
+* Remote MCP servers
+* Enterprise architectures
+
+---
+
+## Advantages
+
+* Scalable
+* Remote access
+* Easy integration
+* Internet accessible
+
+---
+
+## Disadvantages
+
+* Higher latency
+* Network overhead
+* More complex setup
+
+---
+
+# stdio vs HTTP
+
+| Feature          | stdio                 | HTTP                 |
+| ---------------- | --------------------- | -------------------- |
+| Communication    | Local process streams | Network requests     |
+| Speed            | Faster                | Slightly slower      |
+| Scalability      | Low                   | High                 |
+| Setup Complexity | Simple                | Moderate             |
+| Best For         | Local tools           | Remote/cloud systems |
+| Network Required | No                    | Yes                  |
+| Deployment       | Local machine         | Distributed systems  |
+
+---
+
+# Best Interview Answer
+
+## When to use stdio?
+
+### Answer
+
+Use stdio for:
+
+* Local development
+* CLI tools
+* Lightweight integrations
+* Desktop applications
+
+---
+
+## When to use HTTP?
+
+### Answer
+
+Use HTTP for:
+
+* Cloud-hosted MCP servers
+* Enterprise systems
+* Distributed AI agents
+* Remote tool access
+
+---
+
+# Why MCP is Becoming Important in AI?
+
+### Answer
+
+Because modern AI systems need:
+
+* Standardized tool communication
+* Cross-platform interoperability
+* Modular architectures
+* Secure external integrations
+
+MCP provides a universal protocol for this.
+
+---
+
+# MCP vs Traditional API Integration
+
+| Traditional APIs     | MCP                       |
+| -------------------- | ------------------------- |
+| Custom integrations  | Standardized protocol     |
+| Tool-specific logic  | Universal communication   |
+| Harder scaling       | Easier interoperability   |
+| Manual orchestration | Structured tool ecosystem |
+
+---
