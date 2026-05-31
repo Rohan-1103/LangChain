@@ -12,25 +12,25 @@ load_dotenv()
 
 async def main():
 
-    # Get API Key
+    # Load API Key
     groq_key = os.getenv("GROQ_API_KEY")
 
     if not groq_key:
-        raise ValueError("GROQ_API_KEY not found in .env file")
+        raise ValueError("GROQ_API_KEY not found")
 
     os.environ["GROQ_API_KEY"] = groq_key
 
-    # MCP Client
+    # Multi MCP Server Client
     client = MultiServerMCPClient(
         {
-            # Math MCP Server (STDIO)
+            # STDIO Server
             "math": {
                 "command": "python",
                 "args": ["7-mathserver.py"],
                 "transport": "stdio",
             },
 
-            # Weather MCP Server (HTTP)
+            # HTTP Server
             "weather": {
                 "url": "http://127.0.0.1:8000/mcp",
                 "transport": "streamable_http",
@@ -38,7 +38,7 @@ async def main():
         }
     )
 
-    # Load tools from MCP servers
+    # Load tools from both servers
     tools = await client.get_tools()
 
     # LLM
@@ -52,22 +52,30 @@ async def main():
         tools=tools
     )
 
-    # Query
+    # Two messages
     response = await agent.ainvoke(
         {
             "messages": [
+
+                # Message 1 -> Math MCP Server
                 {
                     "role": "user",
-                    "content": "What is the weather in Mumbai and what is (3 + 5) x 12?"
+                    "content": "What is (3 + 5) * 12?"
+                },
+
+                # Message 2 -> Weather MCP Server
+                {
+                    "role": "user",
+                    "content": "What is the weather in Mumbai?"
                 }
             ]
         }
     )
 
-    # Print final answer
+    # Print final response
     print("\nFinal Response:\n")
     print(response["messages"][-1].content)
 
 
-# Run app
+# Run application
 asyncio.run(main())
